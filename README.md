@@ -1,5 +1,3 @@
-# dhdh
-
 using System;
 using System.Collections.Generic;
 
@@ -36,7 +34,13 @@ namespace StoreApp
 
         public string GetProductInfo()
         {
-            return $"Товар: {name}, Категория: {category}, Цена: {price}, Кол-во: {quantity}, Описание: {description}";
+            return
+                $"Название: {name}\n" +
+                $"Категория: {category}\n" +
+                $"Цена: {price} руб.\n" +
+                $"Количество: {quantity}\n" +
+                $"Описание: {description}\n" +
+                $"Общая стоимость: {GetTotalPrice()} руб.\n";
         }
 
         public string Name => name;
@@ -71,17 +75,21 @@ namespace StoreApp
             if (products.Contains(product))
             {
                 product.UpdateQuantity(-quantity);
-                Console.WriteLine($"{name} продал {quantity} ед. товара \"{product.Name}\"");
+                Console.WriteLine($"Продавец {name} продал {quantity} ед. товара \"{product.Name}\"\n");
             }
             else
             {
-                Console.WriteLine("Товар не найден у продавца!");
+                Console.WriteLine("❌ Товар не найден у продавца!\n");
             }
         }
 
         public string GetSellerInfo()
         {
-            return $"Продавец: {name}, ID: {employeeId}, Зарплата: {salary}, Контакты: {contactInfo}";
+            return
+                $"Имя: {name}\n" +
+                $"ID: {employeeId}\n" +
+                $"Зарплата: {salary} руб.\n" +
+                $"Контактная информация: {contactInfo}\n";
         }
 
         public List<Product> GetProducts()
@@ -115,10 +123,11 @@ namespace StoreApp
 
         public void ListProducts()
         {
-            Console.WriteLine($"\n=== Товары в магазине {storeName} ===");
+            Console.WriteLine($"\n=== Товары в магазине: {storeName} ===\n");
             foreach (var seller in sellers)
             {
-                Console.WriteLine($"\nПродавец: {seller.Name}");
+                Console.WriteLine($"Продавец: {seller.Name}");
+                Console.WriteLine("------------------------------------");
                 foreach (var product in seller.GetProducts())
                 {
                     Console.WriteLine(product.GetProductInfo());
@@ -128,7 +137,10 @@ namespace StoreApp
 
         public string GetStoreInfo()
         {
-            return $"Магазин: {storeName}, Адрес: {location}, Время работы: {storeHours}";
+            return
+                $"Название магазина: {storeName}\n" +
+                $"Адрес: {location}\n" +
+                $"Время работы: {storeHours}\n";
         }
     }
 
@@ -147,13 +159,18 @@ namespace StoreApp
             Store store = new Store("ТехноМаркет", "ул. Центральная, 12", "9:00 - 21:00");
             store.AddSeller(seller);
 
+            Console.WriteLine("=== Информация о магазине ===");
             Console.WriteLine(store.GetStoreInfo());
+
+            Console.WriteLine("=== Информация о продавце ===");
             Console.WriteLine(seller.GetSellerInfo());
+
             store.ListProducts();
 
             seller.SellProduct(phone, 3);
+
+            Console.WriteLine("\n=== После продажи ===");
             store.ListProducts();
         }
     }
 }
-
